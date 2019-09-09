@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import su.medsoft.mis.er.terminal.Application;
 import su.medsoft.mis.er.terminal.database.QueryParam;
+import su.medsoft.mis.er.terminal.services.interfaces.DatabaseService;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -17,14 +18,15 @@ import java.util.List;
 import java.util.function.Function;
 
 @Singleton
-public class DatabaseService {
+public class DatabaseServiceImpl implements DatabaseService {
     private static final Logger LOG = LoggerFactory.getLogger(Application.getLoggerName());
 
     @Inject
     private DataSource dataSource;
 
-    public DatabaseService() {}
+    public DatabaseServiceImpl() {}
 
+    @Override
     public <T> List<T> executeSelectQuery(
             String sql, Function<ResultSet, T> mapper, QueryParam...params) {
 
@@ -52,6 +54,7 @@ public class DatabaseService {
         }
     }
 
+    @Override
     public <T> T executeSelectQueryWithAllItems(String sql, Function<ResultSet, T> mapper, QueryParam...params) {
         try(Connection connection = dataSource.getConnection();
             PreparedStatement statement = connection.prepareStatement(sql)) {
@@ -69,6 +72,7 @@ public class DatabaseService {
         }
     }
 
+    @Override
     public <T> T executeSelectQueryWithAllItemsWithoutParams(String sql, Function<ResultSet, T> mapper) {
         try(Connection connection = dataSource.getConnection();
             PreparedStatement statement = connection.prepareStatement(sql)) {

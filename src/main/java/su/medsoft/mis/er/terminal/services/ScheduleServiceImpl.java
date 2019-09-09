@@ -7,8 +7,10 @@ import org.slf4j.LoggerFactory;
 import su.medsoft.mis.er.terminal.Application;
 import su.medsoft.mis.er.terminal.dto.AggregateIntervalDto;
 import su.medsoft.mis.er.terminal.dto.ScheduleDto;
-import su.medsoft.mis.er.terminal.repositories.ScheduleRepository;
+import su.medsoft.mis.er.terminal.repositories.interfaces.ScheduleRepository;
 import su.medsoft.mis.er.terminal.responseMessages.ScheduleResponseMessage;
+import su.medsoft.mis.er.terminal.services.interfaces.IntervalService;
+import su.medsoft.mis.er.terminal.services.interfaces.ScheduleService;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -17,15 +19,19 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Singleton
-public class ScheduleService {
+public class ScheduleServiceImpl implements ScheduleService {
     private static final Logger LOG = LoggerFactory.getLogger(Application.getLoggerName());
 
-    @Inject
-    private ScheduleRepository scheduleRepository;
+    private final ScheduleRepository scheduleRepository;
+    private final IntervalService intervalService;
 
     @Inject
-    private IntervalService intervalService;
+    public ScheduleServiceImpl(ScheduleRepository scheduleRepository, IntervalService intervalService) {
+        this.scheduleRepository = scheduleRepository;
+        this.intervalService = intervalService;
+    }
 
+    @Override
     public HttpResponse<Single<ScheduleResponseMessage>> getSchedule(Long departmentId, Boolean aggregate, long moId, String source) {
 
         ScheduleResponseMessage responseMessage = new ScheduleResponseMessage();

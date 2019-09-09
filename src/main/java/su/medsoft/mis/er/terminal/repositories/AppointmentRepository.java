@@ -3,7 +3,7 @@ package su.medsoft.mis.er.terminal.repositories;
 import su.medsoft.mis.er.terminal.database.QueryParam;
 import su.medsoft.mis.er.terminal.dto.AppointmentDayDto;
 import su.medsoft.mis.er.terminal.mappers.AppointmentMapper;
-import su.medsoft.mis.er.terminal.services.DatabaseService;
+import su.medsoft.mis.er.terminal.services.DatabaseServiceImpl;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -13,7 +13,7 @@ import java.util.List;
 @Singleton
 public class AppointmentRepository {
     @Inject
-    private DatabaseService databaseService;
+    private DatabaseServiceImpl databaseService;
 
     public List<AppointmentDayDto> getAppointmentsByPatient(long patient_id, String beginDate, String endDate) throws SQLException {
 

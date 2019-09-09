@@ -3,18 +3,25 @@ package su.medsoft.mis.er.terminal.repositories;
 import su.medsoft.mis.er.terminal.database.QueryParam;
 import su.medsoft.mis.er.terminal.dto.ScheduleDto;
 import su.medsoft.mis.er.terminal.mappers.ScheduleMapper;
-import su.medsoft.mis.er.terminal.services.DatabaseService;
+import su.medsoft.mis.er.terminal.repositories.interfaces.ScheduleRepository;
+import su.medsoft.mis.er.terminal.services.DatabaseServiceImpl;
+import su.medsoft.mis.er.terminal.services.interfaces.DatabaseService;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
 import java.util.List;
 
 @Singleton
-public class ScheduleRepository {
+public class ScheduleRepositoryImpl implements ScheduleRepository {
+
+    private final DatabaseService databaseService;
 
     @Inject
-    DatabaseService databaseService;
+    public ScheduleRepositoryImpl(DatabaseService databaseService) {
+        this.databaseService = databaseService;
+    }
 
+    @Override
     public List<ScheduleDto> getSchedule(Long departmentId, long moId, String source) throws Exception {
         StringBuilder queryBuilder = new StringBuilder(
                 "SELECT DISTINCT er_schedule_day.id AS schedule_day_id, er_schedule_day.date, er_schedule_day.staff_id,\n" +

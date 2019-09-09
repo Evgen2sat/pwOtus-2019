@@ -2,7 +2,9 @@ package su.medsoft.mis.er.terminal.repositories;
 
 import su.medsoft.mis.er.terminal.dto.AggregateIntervalDto;
 import su.medsoft.mis.er.terminal.mappers.IntervalMapper;
-import su.medsoft.mis.er.terminal.services.DatabaseService;
+import su.medsoft.mis.er.terminal.repositories.interfaces.IntervalRepository;
+import su.medsoft.mis.er.terminal.services.DatabaseServiceImpl;
+import su.medsoft.mis.er.terminal.services.interfaces.DatabaseService;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -10,11 +12,15 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Singleton
-public class IntervalRepository {
+public class IntervalRepositoryImpl implements IntervalRepository {
 
-    @Inject
-    private DatabaseService databaseService;
+    private final DatabaseService databaseService;
 
+    public IntervalRepositoryImpl(DatabaseService databaseService) {
+        this.databaseService = databaseService;
+    }
+
+    @Override
     public List<AggregateIntervalDto> getIntervals(List<Long> schedule_day_ids, Boolean aggregate, String source) throws Exception {
         StringBuilder queryBuilder = new StringBuilder(
                 "SELECT er_schedule_interval.id, er_schedule_interval.schedule_day_id,\n" +

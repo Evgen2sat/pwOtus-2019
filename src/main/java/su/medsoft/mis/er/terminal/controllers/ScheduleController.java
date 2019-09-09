@@ -16,7 +16,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import su.medsoft.mis.er.terminal.Application;
 import su.medsoft.mis.er.terminal.responseMessages.ScheduleResponseMessage;
-import su.medsoft.mis.er.terminal.services.ScheduleService;
+import su.medsoft.mis.er.terminal.services.interfaces.ScheduleService;
 
 import javax.annotation.Nullable;
 import javax.inject.Inject;
@@ -27,8 +27,11 @@ import java.text.ParseException;
 public class ScheduleController {
     private static final Logger LOG = LoggerFactory.getLogger(Application.getLoggerName());
 
-    @Inject
-    private ScheduleService scheduleService;
+    private final ScheduleService scheduleService;
+
+    public ScheduleController(ScheduleService scheduleService) {
+        this.scheduleService = scheduleService;
+    }
 
     @Get
     @Produces(MediaType.APPLICATION_JSON)
