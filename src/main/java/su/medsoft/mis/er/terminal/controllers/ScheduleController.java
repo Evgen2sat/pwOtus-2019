@@ -29,6 +29,7 @@ public class ScheduleController {
 
     private final ScheduleService scheduleService;
 
+    @Inject
     public ScheduleController(ScheduleService scheduleService) {
         this.scheduleService = scheduleService;
     }
