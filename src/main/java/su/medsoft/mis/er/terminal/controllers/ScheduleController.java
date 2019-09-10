@@ -48,7 +48,7 @@ public class ScheduleController {
             if(departmentId == null) {
                 departmentId = claimsJws.getLongClaim("departmentId");
             }
-        } catch (ParseException e) {
+        } catch (Exception e) {
             LOG.error(e.getMessage(), e);
 
             ScheduleResponseMessage responseMessage = new ScheduleResponseMessage();
