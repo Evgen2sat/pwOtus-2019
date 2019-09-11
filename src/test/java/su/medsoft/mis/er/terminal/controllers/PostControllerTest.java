@@ -10,18 +10,17 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.mockito.Mockito;
 import su.medsoft.mis.er.terminal.dto.ErrorDto;
-import su.medsoft.mis.er.terminal.responseMessages.DoctorResponseMessage;
-import su.medsoft.mis.er.terminal.services.interfaces.DoctorService;
+import su.medsoft.mis.er.terminal.responseMessages.PostResponseMessage;
+import su.medsoft.mis.er.terminal.services.interfaces.PostService;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 import static org.junit.Assert.*;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 
-public class DoctorControllerTest {
-
+public class PostControllerTest {
     private static HttpHeaders headers;
 
     @BeforeClass
@@ -33,60 +32,60 @@ public class DoctorControllerTest {
     }
 
     @Test
-    public void getDoctorsWithoutErrorTest() {
+    public void getPostsWithoutErrorTest() {
 
-        DoctorResponseMessage responseMessage = new DoctorResponseMessage();
-        responseMessage.setDoctorDtoList(new ArrayList<>());
+        PostResponseMessage responseMessage = new PostResponseMessage();
+        responseMessage.setPostDtoList(new ArrayList<>());
 
-        DoctorService doctorService = Mockito.mock(DoctorService.class);
-        Mockito.when(doctorService.getDoctors(Mockito.anyLong(), Mockito.anyString(), Mockito.anyString(), Mockito.any()))
+        PostService postService = Mockito.mock(PostService.class);
+        Mockito.when(postService.getPosts(Mockito.anyLong(), Mockito.any(), Mockito.anyString()))
                 .thenReturn(HttpResponse.ok(Single.just(responseMessage)));
 
 
-        DoctorController controller = new DoctorController(doctorService);
-        HttpResponse<Single<DoctorResponseMessage>> response = controller.getDoctors(headers, "", "ТЕР", null);
+        PostController controller = new PostController(postService);
+        HttpResponse<Single<PostResponseMessage>> response = controller.getPosts(headers, null, "ТЕР");
 
         assertEquals(response.getStatus(), HttpStatus.OK);
         assertNotNull(response.getBody());
         assertNull(response.getBody().get().blockingGet().getErrorDto());
-        assertNotNull(response.getBody().get().blockingGet().getDoctorDtoList());
+        assertNotNull(response.getBody().get().blockingGet().getPostDtoList());
     }
 
     @Test
-    public void getDoctorsWithErrorTest_withoutHeaders() {
+    public void getPostsWithErrorTest_withoutHeaders() {
 
-        DoctorService doctorService = Mockito.mock(DoctorService.class);
+        PostService service = Mockito.mock(PostService.class);
 
-        DoctorController controller = new DoctorController(doctorService);
+        PostController controller = new PostController(service);
 
-        HttpResponse<Single<DoctorResponseMessage>> response = controller.getDoctors(null, "", "ТЕР", null);
+        HttpResponse<Single<PostResponseMessage>> response = controller.getPosts(null, null, "ТЕР");
 
         assertNotNull(response.getBody());
         assertNotNull(response.getBody().get().blockingGet().getErrorDto());
         assertEquals(response.getBody().get().blockingGet().getErrorDto().getCode(), 1);
-        assertNull(response.getBody().get().blockingGet().getDoctorDtoList());
+        assertNull(response.getBody().get().blockingGet().getPostDtoList());
     }
 
     @Test
-    public void getDoctorsWithErrorTest() {
+    public void getPostsWithErrorTest() {
 
-        DoctorResponseMessage responseMessage = new DoctorResponseMessage();
+        PostResponseMessage responseMessage = new PostResponseMessage();
         ErrorDto errorDto = new ErrorDto();
         errorDto.setCode(1);
         responseMessage.setErrorDto(errorDto);
 
-        DoctorService doctorService = Mockito.mock(DoctorService.class);
+        PostService service = Mockito.mock(PostService.class);
 
-        Mockito.when(doctorService.getDoctors(Mockito.anyLong(), Mockito.anyString(), Mockito.anyString(), Mockito.any()))
+        Mockito.when(service.getPosts(Mockito.anyLong(), Mockito.any(), Mockito.anyString()))
                 .thenReturn(HttpResponse.serverError(Single.just(responseMessage)));
 
-        DoctorController controller = new DoctorController(doctorService);
+        PostController controller = new PostController(service);
 
-        HttpResponse<Single<DoctorResponseMessage>> response = controller.getDoctors(headers, "", "ТЕР", null);
+        HttpResponse<Single<PostResponseMessage>> response = controller.getPosts(headers, null, "ТЕР");
 
         assertNotNull(response.getBody());
         assertNotNull(response.getBody().get().blockingGet().getErrorDto());
         assertEquals(1, response.getBody().get().blockingGet().getErrorDto().getCode());
-        assertNull(response.getBody().get().blockingGet().getDoctorDtoList());
+        assertNull(response.getBody().get().blockingGet().getPostDtoList());
     }
 }

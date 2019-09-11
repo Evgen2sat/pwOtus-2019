@@ -16,7 +16,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import su.medsoft.mis.er.terminal.Application;
 import su.medsoft.mis.er.terminal.responseMessages.PostResponseMessage;
-import su.medsoft.mis.er.terminal.services.PostService;
+import su.medsoft.mis.er.terminal.services.PostServiceImpl;
+import su.medsoft.mis.er.terminal.services.interfaces.PostService;
 
 import javax.annotation.Nullable;
 import javax.inject.Inject;
@@ -27,8 +28,12 @@ import java.text.ParseException;
 public class PostController {
     private static final Logger LOG = LoggerFactory.getLogger(Application.getLoggerName());
 
+    private final PostService postService;
+
     @Inject
-    private PostService postService;
+    public PostController(PostService postService) {
+        this.postService = postService;
+    }
 
     @Get
     @Produces(MediaType.APPLICATION_JSON)
@@ -42,7 +47,7 @@ public class PostController {
             if(departmentId == null) {
                 departmentId = claimsJws.getLongClaim("departmentId");
             }
-        } catch (ParseException e) {
+        } catch (Exception e) {
             LOG.error(e.getMessage(), e);
 
             PostResponseMessage responseMessage = new PostResponseMessage();

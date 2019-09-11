@@ -24,6 +24,7 @@ public class DictionaryServiceImpl implements DictionaryService {
         this.dictionaryService = dictionaryService;
     }
 
+    @Override
     public HttpResponse<Single<DocumentTypesResponseMessage>> getDocumentTypes() {
         DocumentTypesResponseMessage responseMessage = null;
 
@@ -38,6 +39,7 @@ public class DictionaryServiceImpl implements DictionaryService {
         return Application.getResponse(responseMessage);
     }
 
+    @Override
     public HttpResponse<Single<InsuranceBlankTypesResponseMessage>> getInsuranceBlankTypes() {
         InsuranceBlankTypesResponseMessage responseMessage = null;
 

@@ -19,6 +19,7 @@ public class DoctorServiceImpl implements DoctorService {
     @Inject
     private ErService erService;
 
+    @Override
     public HttpResponse<Single<DoctorResponseMessage>> getDoctors(long moId, String postCode, String channel, Long departmentId) {
         DoctorResponseMessage responseMessage = null;
 

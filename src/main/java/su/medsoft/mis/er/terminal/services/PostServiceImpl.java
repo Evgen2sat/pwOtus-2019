@@ -7,17 +7,19 @@ import org.slf4j.LoggerFactory;
 import su.medsoft.mis.er.terminal.Application;
 import su.medsoft.mis.er.terminal.external_services.ErService;
 import su.medsoft.mis.er.terminal.responseMessages.PostResponseMessage;
+import su.medsoft.mis.er.terminal.services.interfaces.PostService;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
 @Singleton
-public class PostService {
+public class PostServiceImpl implements PostService {
     private static final Logger LOG = LoggerFactory.getLogger(Application.getLoggerName());
 
     @Inject
     private ErService erService;
 
+    @Override
     public HttpResponse<Single<PostResponseMessage>> getPosts(long moId, Long separateDepartId, String channel) {
         PostResponseMessage responseMessage = null;
 
