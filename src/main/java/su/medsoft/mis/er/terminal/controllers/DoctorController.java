@@ -16,7 +16,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import su.medsoft.mis.er.terminal.Application;
 import su.medsoft.mis.er.terminal.responseMessages.DoctorResponseMessage;
-import su.medsoft.mis.er.terminal.services.DoctorService;
+import su.medsoft.mis.er.terminal.services.DoctorServiceImpl;
+import su.medsoft.mis.er.terminal.services.interfaces.DoctorService;
 
 import javax.annotation.Nullable;
 import javax.inject.Inject;
@@ -27,8 +28,12 @@ import java.text.ParseException;
 public class DoctorController {
     private static final Logger LOG = LoggerFactory.getLogger(Application.getLoggerName());
 
+    private final DoctorService doctorService;
+
     @Inject
-    private DoctorService doctorService;
+    public DoctorController(DoctorService doctorService) {
+        this.doctorService = doctorService;
+    }
 
     @Get
     @Produces(MediaType.APPLICATION_JSON)
@@ -42,7 +47,7 @@ public class DoctorController {
             if(departmentId == null) {
                 departmentId = claimsJws.getLongClaim("departmentId");
             }
-        } catch (ParseException e) {
+        } catch (Exception e) {
             LOG.error(e.getMessage(), e);
 
             DoctorResponseMessage responseMessage = new DoctorResponseMessage();

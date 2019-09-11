@@ -7,12 +7,13 @@ import org.slf4j.LoggerFactory;
 import su.medsoft.mis.er.terminal.Application;
 import su.medsoft.mis.er.terminal.external_services.ErService;
 import su.medsoft.mis.er.terminal.responseMessages.DoctorResponseMessage;
+import su.medsoft.mis.er.terminal.services.interfaces.DoctorService;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
 @Singleton
-public class DoctorService {
+public class DoctorServiceImpl implements DoctorService {
     private static final Logger LOG = LoggerFactory.getLogger(Application.getLoggerName());
 
     @Inject
