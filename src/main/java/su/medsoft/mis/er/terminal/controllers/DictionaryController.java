@@ -10,15 +10,21 @@ import io.micronaut.security.rules.SecuredAnnotationRule;
 import io.reactivex.Single;
 import su.medsoft.mis.er.terminal.responseMessages.DocumentTypesResponseMessage;
 import su.medsoft.mis.er.terminal.responseMessages.InsuranceBlankTypesResponseMessage;
-import su.medsoft.mis.er.terminal.services.DictionaryService;
+import su.medsoft.mis.er.terminal.services.DictionaryServiceImpl;
+import su.medsoft.mis.er.terminal.services.interfaces.DictionaryService;
 
 import javax.inject.Inject;
 
 @Secured(SecuredAnnotationRule.IS_AUTHENTICATED)
 @Controller("${endpoints.all.path}/dictionary")
 public class DictionaryController {
+
+    private final DictionaryService dictionaryService;
+
     @Inject
-    private DictionaryService dictionaryService;
+    public DictionaryController(DictionaryService dictionaryService) {
+        this.dictionaryService = dictionaryService;
+    }
 
     @Get("/document_types")
     @Produces(MediaType.APPLICATION_JSON)

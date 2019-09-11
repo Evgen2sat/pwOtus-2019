@@ -7,16 +7,22 @@ import org.slf4j.LoggerFactory;
 import su.medsoft.mis.er.terminal.Application;
 import su.medsoft.mis.er.terminal.responseMessages.DocumentTypesResponseMessage;
 import su.medsoft.mis.er.terminal.responseMessages.InsuranceBlankTypesResponseMessage;
+import su.medsoft.mis.er.terminal.services.interfaces.DictionaryService;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
 @Singleton
-public class DictionaryService {
+public class DictionaryServiceImpl implements DictionaryService {
     private static final Logger LOG = LoggerFactory.getLogger(Application.getLoggerName());
 
+
+    private final su.medsoft.mis.er.terminal.external_services.DictionaryService dictionaryService;
+
     @Inject
-    private su.medsoft.mis.er.terminal.external_services.DictionaryService dictionaryService;
+    public DictionaryServiceImpl(su.medsoft.mis.er.terminal.external_services.DictionaryService dictionaryService) {
+        this.dictionaryService = dictionaryService;
+    }
 
     public HttpResponse<Single<DocumentTypesResponseMessage>> getDocumentTypes() {
         DocumentTypesResponseMessage responseMessage = null;
