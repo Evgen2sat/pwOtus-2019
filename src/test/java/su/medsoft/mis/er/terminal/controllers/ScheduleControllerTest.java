@@ -4,11 +4,8 @@ import io.micronaut.core.convert.DefaultConversionService;
 import io.micronaut.http.HttpHeaders;
 import io.micronaut.http.HttpResponse;
 import io.micronaut.http.HttpStatus;
-import io.micronaut.http.netty.NettyHttpHeaders;
 import io.micronaut.http.simple.SimpleHttpHeaders;
 import io.reactivex.Single;
-import static org.junit.Assert.*;
-
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.mockito.Mockito;
@@ -16,10 +13,11 @@ import su.medsoft.mis.er.terminal.dto.ErrorDto;
 import su.medsoft.mis.er.terminal.responseMessages.ScheduleResponseMessage;
 import su.medsoft.mis.er.terminal.services.interfaces.ScheduleService;
 
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+
+import static org.junit.Assert.*;
 
 public class ScheduleControllerTest {
 

@@ -11,13 +11,14 @@ import su.medsoft.mis.er.terminal.external_services.ErService;
 import su.medsoft.mis.er.terminal.repositories.AppointmentRepository;
 import su.medsoft.mis.er.terminal.responseMessages.AppointmentResponseMessage;
 import su.medsoft.mis.er.terminal.responseMessages.CreatedAppointmentResponseMessage;
+import su.medsoft.mis.er.terminal.services.interfaces.AppointmentService;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
 import java.util.List;
 
 @Singleton
-public class AppointmentService {
+public class AppointmentServiceImpl implements AppointmentService {
 
     private static final Logger LOG = LoggerFactory.getLogger(Application.getLoggerName());
 
@@ -27,6 +28,7 @@ public class AppointmentService {
     @Inject
     private ErService erService;
 
+    @Override
     public HttpResponse<Single<AppointmentResponseMessage>> getAppointmentsByPatient(long patient_id, String beginDate, String endDate) {
         AppointmentResponseMessage responseMessage = new AppointmentResponseMessage();
 
@@ -42,6 +44,7 @@ public class AppointmentService {
         return Application.getResponse(responseMessage);
     }
 
+    @Override
     public HttpResponse<Single<CreatedAppointmentResponseMessage>> createdAppointment(CreateAppointmentBodyDto createAppointmentBodyDto) {
         CreatedAppointmentResponseMessage responseMessage = null;
 

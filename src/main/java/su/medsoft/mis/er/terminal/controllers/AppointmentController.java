@@ -15,7 +15,8 @@ import su.medsoft.mis.er.terminal.Application;
 import su.medsoft.mis.er.terminal.dto.CreateAppointmentBodyDto;
 import su.medsoft.mis.er.terminal.responseMessages.AppointmentResponseMessage;
 import su.medsoft.mis.er.terminal.responseMessages.CreatedAppointmentResponseMessage;
-import su.medsoft.mis.er.terminal.services.AppointmentService;
+import su.medsoft.mis.er.terminal.services.AppointmentServiceImpl;
+import su.medsoft.mis.er.terminal.services.interfaces.AppointmentService;
 
 import javax.inject.Inject;
 import java.text.ParseException;
@@ -26,8 +27,12 @@ public class AppointmentController {
 
     private static final Logger LOG = LoggerFactory.getLogger(Application.getLoggerName());
 
+    private final AppointmentService appointmentService;
+
     @Inject
-    private AppointmentService appointmentService;
+    public AppointmentController(AppointmentService appointmentService) {
+        this.appointmentService = appointmentService;
+    }
 
     @Get("/patients/{id}")
     @Produces(MediaType.APPLICATION_JSON)
@@ -44,7 +49,7 @@ public class AppointmentController {
         try {
             JWTClaimsSet claimsJws = JWTParser.parse(headers.getAuthorization().get().replace("Bearer", "")).getJWTClaimsSet();
             moId = claimsJws.getLongClaim("moId");
-        } catch (ParseException e) {
+        } catch (Exception e) {
             LOG.error(e.getMessage(), e);
 
             CreatedAppointmentResponseMessage responseMessage = new CreatedAppointmentResponseMessage();
