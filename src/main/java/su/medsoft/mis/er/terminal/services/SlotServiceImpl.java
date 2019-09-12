@@ -7,17 +7,19 @@ import org.slf4j.LoggerFactory;
 import su.medsoft.mis.er.terminal.Application;
 import su.medsoft.mis.er.terminal.external_services.ErService;
 import su.medsoft.mis.er.terminal.responseMessages.SlotResponseMessage;
+import su.medsoft.mis.er.terminal.services.interfaces.SlotService;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
 @Singleton
-public class SlotService {
+public class SlotServiceImpl implements SlotService {
     private static final Logger LOG = LoggerFactory.getLogger(Application.getLoggerName());
 
     @Inject
     private ErService erService;
 
+    @Override
     public HttpResponse<Single<SlotResponseMessage>> getSlots(String channel, Long departmentId, long doctorId, String beginDate, String endDate, long moId) {
         SlotResponseMessage responseMessage = null;
 

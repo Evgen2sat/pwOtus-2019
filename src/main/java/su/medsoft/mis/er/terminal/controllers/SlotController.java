@@ -16,7 +16,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import su.medsoft.mis.er.terminal.Application;
 import su.medsoft.mis.er.terminal.responseMessages.SlotResponseMessage;
-import su.medsoft.mis.er.terminal.services.SlotService;
+import su.medsoft.mis.er.terminal.services.SlotServiceImpl;
+import su.medsoft.mis.er.terminal.services.interfaces.SlotService;
 
 import javax.annotation.Nullable;
 import javax.inject.Inject;
@@ -27,8 +28,12 @@ import java.text.ParseException;
 public class SlotController {
     private static final Logger LOG = LoggerFactory.getLogger(Application.getLoggerName());
 
+    private final SlotService slotService;
+
     @Inject
-    private SlotService slotService;
+    public SlotController(SlotService slotService) {
+        this.slotService = slotService;
+    }
 
     @Get
     @Produces(MediaType.APPLICATION_JSON)
@@ -43,7 +48,7 @@ public class SlotController {
             if(departmentId == null) {
                 departmentId = claimsJws.getLongClaim("departmentId");
             }
-        } catch (ParseException e) {
+        } catch (Exception e) {
             LOG.error(e.getMessage(), e);
 
             SlotResponseMessage responseMessage = new SlotResponseMessage();
