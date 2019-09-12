@@ -8,15 +8,20 @@ import io.micronaut.security.rules.SecuredAnnotationRule;
 import io.reactivex.Single;
 import su.medsoft.mis.er.terminal.dto.PatientDto;
 import su.medsoft.mis.er.terminal.responseMessages.PatientResponseMessage;
-import su.medsoft.mis.er.terminal.services.PatientService;
+import su.medsoft.mis.er.terminal.services.interfaces.PatientService;
 
 import javax.inject.Inject;
 
 @Secured(SecuredAnnotationRule.IS_AUTHENTICATED)
 @Controller("${endpoints.all.path}/patients")
 public class PatientController {
+
+    private final PatientService patientService;
+
     @Inject
-    private PatientService patientService;
+    public PatientController(PatientService patientService) {
+        this.patientService = patientService;
+    }
 
     @Get
     @Produces(MediaType.APPLICATION_JSON)

@@ -9,6 +9,7 @@ import su.medsoft.mis.er.terminal.dto.InsuranceDto;
 import su.medsoft.mis.er.terminal.dto.MpiPatientDto;
 import su.medsoft.mis.er.terminal.dto.PatientDto;
 import su.medsoft.mis.er.terminal.responseMessages.PatientResponseMessage;
+import su.medsoft.mis.er.terminal.services.interfaces.PatientService;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -16,12 +17,13 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Singleton
-public class PatientService {
+public class PatientServiceImpl implements PatientService {
     private static final Logger LOG = LoggerFactory.getLogger(Application.getLoggerName());
 
     @Inject
     private su.medsoft.mis.er.terminal.external_services.PatientService patientService;
 
+    @Override
     public HttpResponse<Single<PatientResponseMessage>> getPatientByInsuranceAndBirthDate(String npolis, String birthDate) {
         PatientResponseMessage responseMessage = new PatientResponseMessage();
         InsuranceDto insuranceDto = new InsuranceDto(null, npolis);
@@ -59,6 +61,7 @@ public class PatientService {
         return Application.getResponse(responseMessage);
     }
 
+    @Override
     public HttpResponse<Single<PatientResponseMessage>> createPatient(PatientDto patientDto) {
         patientDto.setNot_confirmed(true);
         patientDto.setComment("Добавлен через терминал");
