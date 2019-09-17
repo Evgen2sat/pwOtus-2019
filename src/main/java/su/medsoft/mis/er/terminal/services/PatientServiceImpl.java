@@ -29,10 +29,18 @@ public class PatientServiceImpl implements PatientService {
         InsuranceDto insuranceDto = new InsuranceDto(null, npolis);
 
         try {
-            List<MpiPatientDto> mpiPatientDtos = patientService.getPatientByENP(npolis);
+            List<MpiPatientDto> mpiPatientDtos = patientService.getPatientByENP(npolis, true);
 
             if(mpiPatientDtos.isEmpty()) {
-                mpiPatientDtos = patientService.getPatientByInsuranceNumber(insuranceDto);
+                mpiPatientDtos = patientService.getPatientByInsuranceNumber(insuranceDto, true);
+            }
+
+            if(mpiPatientDtos.isEmpty()) {
+                mpiPatientDtos = patientService.getPatientByENP(npolis, false);
+            }
+
+            if(mpiPatientDtos.isEmpty()) {
+                mpiPatientDtos = patientService.getPatientByInsuranceNumber(insuranceDto, false);
             }
 
             if(mpiPatientDtos.isEmpty()) {

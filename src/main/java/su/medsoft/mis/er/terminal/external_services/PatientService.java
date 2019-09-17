@@ -37,19 +37,19 @@ public class PatientService {
         api = retrofit.create(PatientServicesAPI.class);
     }
 
-    public List<MpiPatientDto> getPatientByInsuranceNumber(InsuranceDto insuranceDto) throws IOException {
-        return api.getPatientByInsuranceNumber(insuranceDto, true).execute().body();
+    public List<MpiPatientDto> getPatientByInsuranceNumber(InsuranceDto insuranceDto, boolean inMPI) throws IOException {
+        return api.getPatientByInsuranceNumber(insuranceDto, inMPI).execute().body();
     }
 
     public PatientDto getPatientInfo(MpiPatientDto mpiPatientDto) throws IOException {
         return api.getPatientInfo(mpiPatientDto).execute().body();
     }
 
-    public List<MpiPatientDto> getPatientByENP(String enp) throws IOException {
-        return api.getPatientByENP(enp, true).execute().body();
-    }
-
     public Long createPatient(PatientDto patientDto) throws IOException {
         return api.createPatient(patientDto).execute().body();
+    }
+
+    public List<MpiPatientDto> getPatientByENP(String enp, boolean inMPI) throws IOException {
+        return api.getPatientByENP(enp, inMPI).execute().body();
     }
 }
